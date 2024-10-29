@@ -2,6 +2,11 @@
 
 Welcome to **Inflow-Ai**! This web app is here to help you turn your ideas into beautiful mind maps and flowcharts. Just type in a topic or a few keywords, and let our app do the rest with the power of Cohere AI. It’s a fun and easy way to visualize your thoughts and make them clearer.
 
+## Screenshots
+![Screenshot 1](assets/1.jpg)
+![Screenshot 2](assets/2.jpg)
+![Screenshot 3](assets/3.jpg)
+
 ## Features
 
 - **AI-Generated Mind Maps:** Enter a topic, and watch as Inflow-Ai creates a structured mind map for you.

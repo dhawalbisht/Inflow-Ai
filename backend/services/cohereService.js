@@ -1,7 +1,7 @@
 import config from '../config/config.js';
 
 export const generateFlowchartData = async (topic) => {
-  const prompt = `Generate a list of key concepts with brief definitions for creating a mind map on the topic: ${topic}. Limit responses to 5-10 sentences per concept.`;
+  const prompt = `generate array of cars`;
 
   try {
     const response = await fetch('https://api.cohere.ai/v1/generate', {

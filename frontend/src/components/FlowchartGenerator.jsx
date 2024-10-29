@@ -34,6 +34,7 @@ const FlowchartGenerator = () => {
         } catch (err) {
             setError('Failed to generate mind map. Please try again.');
         } finally {
+
             setLoading(false);
         }
     };

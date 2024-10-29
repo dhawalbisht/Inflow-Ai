@@ -7,7 +7,13 @@ import flowchartRoutes from './routes/flowchartRoutes.js';
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: [
+    'http://localhost:5173', // Local development
+    'https://mindmapai-ai.vercel.app/', // Your Vercel frontend domain
+  ],
+  credentials: true
+}));
 app.use(bodyParser.json());
 
 // Routes

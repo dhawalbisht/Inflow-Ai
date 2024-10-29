@@ -1,6 +1,5 @@
 // components/FlowchartGenerator.jsx
 import React, { useState, useRef } from 'react';
-import axios from 'axios';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import FlowchartHeader from './FlowchartHeder';
@@ -8,6 +7,7 @@ import TopicInput from './TopicInput';
 import FlowchartDisplay from './FlowchartDisplay';
 import ExportButtons from './ExportButtons';
 import { generateMindMapNodes, generateMindMapEdges } from '../utils/flowchartUtils';
+import { generateFlowchart } from '../services/flowchartService';
 
 const FlowchartGenerator = () => {
     const [topic, setTopic] = useState('');
@@ -24,8 +24,8 @@ const FlowchartGenerator = () => {
         setEdges([]);
 
         try {
-            const response = await axios.post('http://localhost:4000/api/generate-flowchart', { topic });
-            const flowchartData = response.data.flowchartData;
+            const response = await generateFlowchart(topic);
+            const flowchartData = response.flowchartData;
 
             const mindMapNodes = generateMindMapNodes(flowchartData);
             const mindMapEdges = generateMindMapEdges(mindMapNodes.length);
@@ -75,7 +75,7 @@ const FlowchartGenerator = () => {
                 />
 
                 {error && (
-                    <div className="text- You can also use a code editor like Visual Studio Code to format your code. It has a built-in formatter that can help you keep your code organized and readable.red-400 text-center mb-4">
+                    <div className="text-red-400 text-center mb-4">
                         {error}
                     </div>
                 )}

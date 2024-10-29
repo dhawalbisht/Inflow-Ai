@@ -24,9 +24,8 @@ const FlowchartGenerator = () => {
         setEdges([]);
 
         try {
-            const response = await generateFlowchart(topic);
+            const response = await generateFlowchart({ topic: topic });
             const flowchartData = response.flowchartData;
-
             const mindMapNodes = generateMindMapNodes(flowchartData);
             const mindMapEdges = generateMindMapEdges(mindMapNodes.length);
 

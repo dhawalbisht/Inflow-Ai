@@ -1,19 +1,22 @@
 import config from '../config/config.js';
 
 export const generateFlowchartData = async (topic) => {
-  const prompt = `Create a focused mind map about "${topic}" following these rules:
-  1. Provide exactly 5 key concepts directly related to ${topic}
-  2. Format as a numbered list
-  3. Each point should start with a clear title followed by a brief explanation
-  4. All content must be specifically about ${topic}
-  5. Do not include any mathematical or trigonometry concepts unless explicitly requested
+  const prompt = `Create a Focused Mind Map on "${topic}"
+
+  Please generate a structured mind map centered around the topic of "${topic}" with the following guidelines:
   
-  Format example:
-  1. [Key Concept 1]: Explanation
-  2. [Key Concept 2]: Explanation
-  3. [Key Concept 3]: Explanation
-  4. [Key Concept 4]: Explanation
-  5. [Key Concept 5]: Explanation`;
+  Key Concepts: Provide exactly five key concepts that are directly related to "${topic}".
+  Formatting: Present your concepts as a numbered list for clarity.
+  Title and Explanation: Each point should begin with a clear title that encapsulates the concept, followed by a brief explanation (one or two sentences) that elaborates on the title.
+  Content Specificity: Ensure that all content is specifically relevant to "${topic}", avoiding any unrelated themes or distractions.
+  Exclusion of Mathematics: Do not include any mathematical or trigonometric concepts unless they are explicitly requested.
+  Example Format:
+  [Key Concept 1]: Explanation
+  [Key Concept 2]: Explanation
+  [Key Concept 3]: Explanation
+  [Key Concept 4]: Explanation
+  [Key Concept 5]: Explanation
+  `;
 
   try {
     const response = await fetch('https://api.deepinfra.com/v1/openai/chat/completions', {

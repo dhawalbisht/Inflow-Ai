@@ -7,12 +7,11 @@ import flowchartRoutes from './routes/flowchartRoutes.js';
 const app = express();
 
 // Middleware
+const allowedOrigins = ['https://inflow-ai.vercel.app'];
 app.use(cors({
-  origin: [
-    'http://localhost:5173', // Local development
-    'https://mindmapai-ai.vercel.app/', // Your Vercel frontend domain
-  ],
-  credentials: true
+    origin: allowedOrigins,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
 }));
 app.use(bodyParser.json());
 

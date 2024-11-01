@@ -1,4 +1,4 @@
-import { generateFlowchartData } from '../services/deepInfra.js';
+import { generateFlowchartData } from '../services/cohereAi.js';
 
 export const generateFlowchart = async (req, res) => {
   const { topic } = req.body;

@@ -16,22 +16,17 @@ export const generateFlowchartData = async (topic) => {
   5. [Key Concept 5]: Explanation`;
 
   try {
-    const response = await fetch('https://api.cohere.ai/v1/generate', {
+    const response = await fetch('https://api.deepinfra.com/v1/openai/chat/completions', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${config.cohereApiKey}`,
+        'Authorization': `Bearer ${config.deepInfraApiKey}`, // Update to your DeepInfra API key
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'command',
-        prompt: prompt,
+        model: "meta-llama/Meta-Llama-3.1-405B-Instruct", // Specify the model you want to use
+        messages: [{ role: "user", content: prompt }],
         max_tokens: 500,
         temperature: 0.4,
-        k: 0,
-        p: 0.75,
-        frequency_penalty: 0.2,
-        presence_penalty: 0.2,
-        stop_sequences: ["\n\n", "6."],
       }),
     });
 
@@ -40,12 +35,12 @@ export const generateFlowchartData = async (topic) => {
     }
 
     const data = await response.json();
-    
-    if (!data.generations || !data.generations[0] || !data.generations[0].text) {
-      throw new Error('Invalid response format from Cohere API');
+
+    if (!data.choices || !data.choices[0] || !data.choices[0].message.content) {
+      throw new Error('Invalid response format from DeepInfra API');
     }
 
-    const generatedText = data.generations[0].text.trim();
+    const generatedText = data.choices[0].message.content.trim();
 
     // Process the text into structured format
     const concepts = generatedText

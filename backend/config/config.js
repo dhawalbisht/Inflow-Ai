@@ -4,5 +4,5 @@ dotenv.config();
 
 export default {
   port: process.env.PORT || 4000,
-  cohereApiKey: process.env.COHERE_API_KEY,
+  deepInfraApiKey: process.env.DEEPINFRA_API_KEY, // Use the new key name
 };

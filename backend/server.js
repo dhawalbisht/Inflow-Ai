@@ -1,24 +1,22 @@
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import config from './config/config.js';
-import flowchartRoutes from './routes/flowchartRoutes.js';
+import { generateFlowchartContent } from './routes/flowchartRoutes.js';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const app = express();
+const PORT = process.env.PORT || 4000;
 
 // Middleware
-const allowedOrigins = ['https://inflow-ai.vercel.app'];
-app.use(cors({
-    origin: allowedOrigins,
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true,
-}));
+app.use(cors());
 app.use(bodyParser.json());
 
 // Routes
-app.use('/api', flowchartRoutes);
+app.post('/api/generate-flowchart', generateFlowchartContent);
 
 // Start the server
-app.listen(config.port, () => {
-  console.log(`Server is running on http://localhost:${config.port}`);
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
 });

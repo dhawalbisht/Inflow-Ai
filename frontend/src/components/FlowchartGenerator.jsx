@@ -2,7 +2,7 @@
 import React, { useState, useRef } from 'react';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-import FlowchartHeader from './FlowchartHeder';
+import FlowchartHeader from './FlowchartHeader';
 import TopicInput from './TopicInput';
 import FlowchartDisplay from './FlowchartDisplay';
 import ExportButtons from './ExportButtons';
@@ -24,9 +24,8 @@ const FlowchartGenerator = () => {
         setEdges([]);
 
         try {
-            const response = await generateFlowchart(topic);
+            const response = await generateFlowchart({ topic: topic });
             const flowchartData = response.flowchartData;
-
             const mindMapNodes = generateMindMapNodes(flowchartData);
             const mindMapEdges = generateMindMapEdges(mindMapNodes.length);
 

@@ -1,13 +1,17 @@
-// src/services/flowchartService.js
-import axios from 'axios';
-import { endpoints } from '../config/api';
+import { endpoints } from '../config/api.js';
 
-export const generateFlowchart = async (inputData) => {
-  try {
-    const response = await axios.post(endpoints.generateFlowchart, inputData);
-    return response.data;
-  } catch (error) {
-    console.error('Error generating flowchart:', error);
-    throw error;
-  }
+export const generateFlowchart = async ({ topic }) => {
+    const response = await fetch(endpoints.generateFlowchart, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ topic }),
+    });
+
+    if (!response.ok) {
+        throw new Error('Failed to generate flowchart');
+    }
+
+    return response.json();
 };

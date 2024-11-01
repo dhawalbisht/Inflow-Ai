@@ -1,44 +1,29 @@
-import express from 'express';
 import cohere from 'cohere-ai';
-import config from '../config/config.js';
 
-cohere.init(config.cohereApiKey); // Initialize Cohere with your API key
+cohere.init(process.env.COHERE_API_KEY); // Initialize the Cohere client
 
-const router = express.Router();
+export const generateFlowchartContent = async (req, res) => {
+    const { topic } = req.body;
 
-router.post('/generate', async (req, res) => {
-  const { message } = req.body;
-
-  if (!message) {
-    return res.status(400).json({ error: 'Message is required' });
-  }
-
-  try {
-    const stream = cohere.chat_stream({
-      model: 'command-r-08-2024',
-      message: message,
-      temperature: 0.3,
-      chat_history: [],
-      prompt_truncation: 'AUTO',
-      connectors: [{ id: 'web-search' }]
-    });
-
-    const responses = [];
-
-    for await (const event of stream) {
-      if (event.event_type === 'text-generation') {
-        responses.push(event.text);
-      }
+    if (!topic) {
+        return res.status(400).json({ error: 'Topic is required' });
     }
 
-    res.json({
-      id: 'generated-mind-map', // You can generate a unique ID if necessary
-      text: responses.join(''),
-    });
-  } catch (error) {
-    console.error('Error generating mind map:', error);
-    res.status(500).json({ error: 'Failed to generate mind map', details: error.message });
-  }
-});
+    try {
+        const response = await cohere.chat({
+            model: 'command-r-08-2024',
+            message: `Generate a flowchart content for the topic: ${topic}`,
+            temperature: 0.3,
+            chat_history: [],
+            prompt_truncation: 'AUTO',
+            connectors: [{ id: 'web-search' }],
+        });
 
-export default router;
+        const flowchartData = response.body.generations[0].text; // Assuming the text is in the first generation
+
+        return res.json({ flowchartData });
+    } catch (error) {
+        console.error('Error generating flowchart:', error);
+        return res.status(500).json({ error: 'Failed to generate flowchart' });
+    }
+};

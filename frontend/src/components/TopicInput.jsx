@@ -1,4 +1,3 @@
-// components/TopicInput.jsx
 const TopicInput = ({ topic, setTopic, handleGenerateMindMap, loading }) => (
     <div className="max-w-md mx-auto mb-8">
         <div className="backdrop-blur-sm bg-[#1E1E1E] p-6 rounded-lg shadow-xl">

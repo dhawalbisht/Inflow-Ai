@@ -1,4 +1,3 @@
-// components/FlowchartGenerator.jsx
 import React, { useState, useRef } from 'react';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
@@ -6,7 +5,6 @@ import FlowchartHeader from './FlowchartHeader';
 import TopicInput from './TopicInput';
 import FlowchartDisplay from './FlowchartDisplay';
 import ExportButtons from './ExportButtons';
-import { generateMindMapNodes, generateMindMapEdges } from '../utils/flowchartUtils';
 import { generateFlowchart } from '../services/flowchartService';
 
 const FlowchartGenerator = () => {
@@ -20,16 +18,26 @@ const FlowchartGenerator = () => {
     const handleGenerateMindMap = async () => {
         setLoading(true);
         setError('');
-        setMindMapData([]);
-        setEdges([]);
+        setMindMapData([]); // Reset mindMapData
+        setEdges([]); // Reset edges
 
         try {
-            const response = await generateFlowchart({ topic: topic });
+            const response = await generateFlowchart({ topic });
             const flowchartData = response.flowchartData;
-            const mindMapNodes = generateMindMapNodes(flowchartData);
-            const mindMapEdges = generateMindMapEdges(mindMapNodes.length);
 
-            setMindMapData(mindMapNodes);
+            // Set mind map nodes from the response
+            setMindMapData(flowchartData);
+
+            // Generate edges to connect all nodes
+            const mindMapEdges = flowchartData.map((_, index) => {
+                if (index === 0) return null; // Skip the first node
+                return {
+                    id: `edge-${index}`,
+                    source: `node-${index - 1}`, // Connect to the previous node
+                    target: `node-${index}`,
+                };
+            }).filter(edge => edge !== null); // Remove null edges
+
             setEdges(mindMapEdges);
         } catch (err) {
             setError('Failed to generate mind map. Please try again.');
@@ -81,8 +89,14 @@ const FlowchartGenerator = () => {
 
                 {mindMapData.length > 0 && (
                     <div className="mt-8" ref={flowchartRef}>
-                        <FlowchartDisplay mindMapData={mindMapData} edges={edges} flowchartRef={flowchartRef} />
+                        <FlowchartDisplay mindMapData={mindMapData} edges={edges} />
                         <ExportButtons exportToImage={exportToImage} exportToPDF={exportToPDF} />
+                    </div>
+                )}
+
+                {mindMapData.length === 0 && !loading && (
+                    <div className="text-gray-400 text-center mt-4">
+                        Please enter a topic to generate a mind map with the top 5 important points.
                     </div>
                 )}
             </div>

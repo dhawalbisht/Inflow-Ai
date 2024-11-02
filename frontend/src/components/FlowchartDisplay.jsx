@@ -1,4 +1,3 @@
-// components/FlowchartDisplay.jsx
 import React from 'react';
 import ReactFlow, { MiniMap, Controls, Background, useNodesState, useEdgesState, addEdge } from 'react-flow-renderer';
 

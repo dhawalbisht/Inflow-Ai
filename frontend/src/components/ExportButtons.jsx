@@ -1,4 +1,3 @@
-// components/ExportButtons.jsx
 const ExportButtons = ({ exportToImage, exportToPDF }) => (
     <div className="flex justify-center gap-4 mt-6">
         <button

@@ -1,29 +1,40 @@
-import cohere from 'cohere-ai';
+import express from 'express';
+import cohere from 'cohere-ai'; // Make sure this is correctly installed
+import dotenv from 'dotenv';
 
-cohere.init(process.env.COHERE_API_KEY); // Initialize the Cohere client
+dotenv.config();
 
-export const generateFlowchartContent = async (req, res) => {
+const router = express.Router();
+const co = new cohere.Client(process.env.COHERE_API_KEY); // Correctly create a new client instance
+
+router.post('/generate-flowchart', async (req, res) => {
     const { topic } = req.body;
 
-    if (!topic) {
-        return res.status(400).json({ error: 'Topic is required' });
-    }
-
     try {
-        const response = await cohere.chat({
+        const response = await co.chat_stream({
             model: 'command-r-08-2024',
-            message: `Generate a flowchart content for the topic: ${topic}`,
+            message: topic,
             temperature: 0.3,
             chat_history: [],
             prompt_truncation: 'AUTO',
-            connectors: [{ id: 'web-search' }],
+            connectors: [{ "id": "web-search" }]
         });
 
-        const flowchartData = response.body.generations[0].text; // Assuming the text is in the first generation
+        const flowchartData = []; // Process the response data to extract flowchart details
 
-        return res.json({ flowchartData });
+        // Example of processing response - adjust according to your needs
+        for (const event of response) {
+            if (event.event_type === "text-generation") {
+                flowchartData.push(event.text);
+            }
+        }
+
+        res.status(200).json({ flowchartData });
     } catch (error) {
-        console.error('Error generating flowchart:', error);
-        return res.status(500).json({ error: 'Failed to generate flowchart' });
+        console.error("Error generating mind map:", error);
+        res.status(500).json({ error: "Failed to generate mind map", details: error.message });
     }
-};
+});
+
+// Export the router
+export default router;

@@ -1,8 +1,6 @@
 import express from 'express';
-import cors from 'cors';
-import bodyParser from 'body-parser';
-import { generateFlowchartContent } from './routes/flowchartRoutes.js';
 import dotenv from 'dotenv';
+import flowchartRoutes from './routes/flowchartRoutes.js'; // Ensure the path is correct
 
 dotenv.config();
 
@@ -10,13 +8,9 @@ const app = express();
 const PORT = process.env.PORT || 4000;
 
 // Middleware
-app.use(cors());
-app.use(bodyParser.json());
+app.use(express.json());
+app.use('/api', flowchartRoutes); // Use the flowchart routes under the '/api' path
 
-// Routes
-app.post('/api/generate-flowchart', generateFlowchartContent);
-
-// Start the server
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+    console.log(`Server is running on http://localhost:${PORT}`);
 });

@@ -1,7 +1,10 @@
 // flowchartService.js
 import axios from 'axios';
 
-export const generateFlowchart = async ({ topic }) => {
-    const response = await axios.post('http://localhost:4000/api/generate-flowchart', { topic });
+// Set the base URL to your deployed backend service
+const BASE_URL = 'https://inflow-ai.onrender.com/api';
+
+export const generateFlowchart = async (data) => {
+    const response = await axios.post(`${BASE_URL}/generate-flowchart`, data);
     return response.data;
 };

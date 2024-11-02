@@ -96,7 +96,7 @@ const FlowchartGenerator = () => {
 
                 {mindMapData.length === 0 && !loading && (
                     <div className="text-gray-400 text-center mt-4">
-                        Please enter a topic to generate a mind map with the top 5 important points.
+                        Please enter a topic to generate a mind map.
                     </div>
                 )}
             </div>

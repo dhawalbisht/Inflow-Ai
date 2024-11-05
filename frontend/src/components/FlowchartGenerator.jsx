@@ -47,7 +47,6 @@ const FlowchartGenerator = () => {
         }
     };
 
-
     const exportToImage = async () => {
         if (flowchartRef.current) {
             const canvas = await html2canvas(flowchartRef.current);

@@ -13,7 +13,7 @@ const TopicInput = ({ topic, setTopic, handleGenerateMindMap, loading }) => (
                 disabled={loading}
                 className="w-full mt-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white py-3 rounded-md hover:opacity-90 transition duration-300 disabled:opacity-50"
             >
-                {loading ? 'Generating...' : 'Generate Mind Map'}
+                {loading ? 'Generating...wait for 1-2 mins' : 'Generate Mind Map'}
             </button>
         </div>
     </div>

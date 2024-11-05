@@ -28,12 +28,13 @@ const FlowchartGenerator = () => {
             // Set mind map nodes from the response
             setMindMapData(flowchartData);
 
-            // Generate edges to connect all nodes
+            // Connect all nodes to the central node (usually the first one)
+            const centralNodeId = 'node-0';
             const mindMapEdges = flowchartData.map((_, index) => {
-                if (index === 0) return null; // Skip the first node
+                if (index === 0) return null; // Skip the first node (central node)
                 return {
                     id: `edge-${index}`,
-                    source: `node-${index - 1}`, // Connect to the previous node
+                    source: centralNodeId, // Connect to the central node
                     target: `node-${index}`,
                 };
             }).filter(edge => edge !== null); // Remove null edges
@@ -45,6 +46,7 @@ const FlowchartGenerator = () => {
             setLoading(false);
         }
     };
+
 
     const exportToImage = async () => {
         if (flowchartRef.current) {

@@ -20,23 +20,11 @@ const FlowchartGenerator = () => {
 
         try {
             const response = await generateFlowchart({ topic });
-            const flowchartData = response.flowchartData;
+            const { flowchartData, edges: generatedEdges } = response;
 
-            // Set mind map nodes from the response
+            // Set mind map nodes and edges from the response
             setMindMapData(flowchartData);
-
-            // Connect all nodes to the central node (usually the first one)
-            const centralNodeId = 'node-0';
-            const mindMapEdges = flowchartData.map((_, index) => {
-                if (index === 0) return null; // Skip the first node (central node)
-                return {
-                    id: `edge-${index}`,
-                    source: centralNodeId, // Connect to the central node
-                    target: `node-${index}`,
-                };
-            }).filter(edge => edge !== null); // Remove null edges
-
-            setEdges(mindMapEdges);
+            setEdges(generatedEdges);
         } catch (err) {
             setError('Failed to generate mind map. Please try again.');
         } finally {
